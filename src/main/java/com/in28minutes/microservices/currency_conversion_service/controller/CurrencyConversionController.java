@@ -19,14 +19,14 @@ public class CurrencyConversionController {
     @Autowired
     private CurrencyExchangeProxy proxy;
 
-    @GetMapping("/currency/conversion/from/{fromCurr}/to/{toCurr}/quantity/{quantity}")
+    @GetMapping("/currency-conversion/from/{fromCurr}/to/{toCurr}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversion(@PathVariable("fromCurr") String fromCurr, @PathVariable("toCurr") String toCurr, @PathVariable("quantity") BigDecimal quantity) {
 
         Map<String, String> uriVariables = new HashMap<String, String>();
         uriVariables.put("fromCurr", fromCurr);
         uriVariables.put("toCurr", toCurr);
         //uriVariables.put("quantity", quantity);
-        ResponseEntity<CurrencyConversion> responseEntity = new RestTemplate().getForEntity("http://localhost:8001/currency-exchange/from/{fromCurr}/to/{toCurr}", CurrencyConversion.class, uriVariables);
+        ResponseEntity<CurrencyConversion> responseEntity = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{fromCurr}/to/{toCurr}", CurrencyConversion.class, uriVariables);
         CurrencyConversion currencyConversion = responseEntity.getBody();
         return new CurrencyConversion(currencyConversion.getId()
                 , currencyConversion.getFromCurr()
@@ -36,7 +36,7 @@ public class CurrencyConversionController {
                 , currencyConversion.getEnvironment());
     }
 
-    @GetMapping("/currency/conversion-feign/from/{fromCurr}/to/{toCurr}/quantity/{quantity}")
+    @GetMapping("/currency-conversion-feign/from/{fromCurr}/to/{toCurr}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversionFeign(@PathVariable("fromCurr") String fromCurr
                                 , @PathVariable("toCurr") String toCurr, @PathVariable("quantity") BigDecimal quantity) {
 
